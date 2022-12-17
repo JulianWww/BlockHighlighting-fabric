@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "clientblockhighlighting",
   "version": "${version}",
 
   "name": "Example Mod",
@@ -14,16 +14,16 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/clientblockhighlighting/icon.png",
 
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "net.fabricmc.example.ExampleMod"
+    "client": [
+      "net.denanu.clientblockhighlighting.Mod"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "clientblockhighlighting.mixins.json"
   ],
 
   "depends": {
