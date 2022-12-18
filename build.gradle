@@ -33,6 +33,15 @@ dependencies {
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 }
 
+
+group = project.group + "." + project.archives_base_name
+archivesBaseName = project.archives_base_name + '-' + project.minecraft_version
+version = project.mod_version
+
+if (version.endsWith('-dev')) {
+	version += "." + new Date().format('yyyyMMdd.HHmmss')
+}
+
 processResources {
 	inputs.property "version", project.version
 
@@ -56,15 +65,19 @@ jar {
 	}
 }
 
-// configure the maven publication
+tasks.publish.dependsOn build
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
+			artifactId project.archivesBaseName
 			from components.java
 		}
 	}
 
 	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
+		maven {
+			url "./pub"
+		}
 	}
 }
