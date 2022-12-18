@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "clientblockhighlighting",
-  "version": "${mod_version}",
+  "version": "1.0.4",
 
   "name": "ClientBlockHighlighting",
   "description": "Client Side Block Highlighter",
@@ -17,10 +17,12 @@
   "license": "CC0-1.0",
   "icon": "assets/clientblockhighlighting/icon.png",
 
-  "environment": "*",
   "entrypoints": {
     "client": [
       "net.denanu.clientblockhighlighting.Mod"
+    ],
+    "modmenu": [
+      "net.denanu.clientblockhighlighting.compat.modmenu.ModMenuImpl"
     ]
   },
   "mixins": [

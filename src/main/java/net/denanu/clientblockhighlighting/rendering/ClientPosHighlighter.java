@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.denanu.clientblockhighlighting.config.Config;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Camera;
@@ -26,8 +27,6 @@ public class ClientPosHighlighter {
 	private static Semaphore mutex = new Semaphore(1);
 
 	protected static final int RANGE = 10000*1000;
-
-	private static int BASE_COLOR = ColorHelper.Argb.getArgb(255, 255, 255, 255);
 
 	private static HashSet<BlockPos> poses = new HashSet<>();
 
@@ -66,18 +65,30 @@ public class ClientPosHighlighter {
 		final Tessellator tessellator = Tessellator.getInstance();
 		final BufferBuilder bufferBuilder = tessellator.getBuffer();
 		RenderSystem.disableTexture();
-		RenderSystem.disableBlend();
+		
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+		
 		RenderSystem.lineWidth(100.0f);
 		bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
 
 		//final Vec3d camPos = camera.getPos();
 
 		for (BlockPos pos : ClientPosHighlighter.poses) {
-			ClientPosHighlighter.drawBox(pos, bufferBuilder, camera, world.getBlockState(pos).getOutlineShape(world, pos));
+			ClientPosHighlighter.drawOutlineBox(pos, bufferBuilder, camera, world.getBlockState(pos).getOutlineShape(world, pos));
 		}
 
 		// render script here
 
+		tessellator.draw();
+		bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+		
+		
+		for (BlockPos pos : ClientPosHighlighter.poses) {
+			ClientPosHighlighter.drawFillBox(pos, bufferBuilder, camera, world.getBlockState(pos).getOutlineShape(world, pos));
+		}
+		
+					
 		tessellator.draw();
 		RenderSystem.lineWidth(1.0f);
 		RenderSystem.enableBlend();
@@ -85,12 +96,18 @@ public class ClientPosHighlighter {
 
 	}
 
-	private static void drawBox(final BlockPos pos, final BufferBuilder buf, final Camera camera, final VoxelShape voxel) {
+	private static void drawFillBox(BlockPos pos, BufferBuilder buf, Camera camera, VoxelShape voxel) {
+		drawBox(pos, buf, camera, voxel, ClientPosHighlighter::drawFilledBox, Config.Color.FILL_COLOR.getIntegerValue(), 0.01);
+	}
+
+	private static void drawOutlineBox(BlockPos pos, BufferBuilder buf, Camera camera, VoxelShape voxel) {
+		drawBox(pos, buf, camera, voxel, ClientPosHighlighter::drawOutlineBox, Config.Color.OUTLINE_COLOR.getIntegerValue(), 0.01);
+	}
+
+	private static void drawBox(final BlockPos pos, final BufferBuilder buf, final Camera camera, final VoxelShape voxel, Renderer renderer, int color, double offset) {
 		final double cameraX = camera.getPos().x;
 		final double cameraY = camera.getPos().y;
 		final double cameraZ = camera.getPos().z;
-
-		double offset = 0.01;
 
 		double xpos = pos.getX() - cameraX;
 		double ypos = pos.getY() - cameraY;
@@ -115,34 +132,69 @@ public class ClientPosHighlighter {
 			topy = ypos + offset + voxel.getMax(Direction.Axis.Y);
 			topz = zpos + offset + voxel.getMax(Direction.Axis.Z);
 		}
+		
+		renderer.draw(x, y, z, topx, topy, topz, color, buf);
+	}
+	
+	private static void drawFilledBox(final double x, final double y, final double z, final double topx, final double topy, final double topz, final int color, final BufferBuilder buf) {
+		buf.vertex(x, 		y, 		z).		color(color).next();
+		buf.vertex(topx, 	y, 		z).		color(color).next();
+		buf.vertex(topx, 	y, 		topz).	color(color).next();
+		buf.vertex(x, 		y, 		topz).	color(color).next();
+		
+		buf.vertex(x, 		topy,	z).		color(color).next();
+		buf.vertex(x, 		topy,	topz).	color(color).next();
+		buf.vertex(topx, 	topy,	topz).	color(color).next();
+		buf.vertex(topx, 	topy,	z).		color(color).next();
+		
+		buf.vertex(x, 		y, 		z).		color(color).next();
+		buf.vertex(x, 		topy,	z).		color(color).next();
+		buf.vertex(topx, 	topy,	z).		color(color).next();
+		buf.vertex(topx,	y,		z).		color(color).next();
+		
+		buf.vertex(x, 		y, 		topz).	color(color).next();
+		buf.vertex(topx, 	y, 		topz).	color(color).next();
+		buf.vertex(topx, 	topy,	topz).	color(color).next();
+		buf.vertex(x, 		topy,	topz).	color(color).next();
+		
+		buf.vertex(topx, 	y, 		z).		color(color).next();
+		buf.vertex(topx, 	topy, 	z).		color(color).next();
+		buf.vertex(topx, 	topy,	topz).	color(color).next();
+		buf.vertex(topx, 	y,		topz).	color(color).next();
+		
+		buf.vertex(x, 		y, 		z).		color(color).next();
+		buf.vertex(x, 		y,		topz).	color(color).next();
+		buf.vertex(x, 		topy,	topz).	color(color).next();
+		buf.vertex(x, 		topy, 	z).		color(color).next();
+	}
+	
+	private static void drawOutlineBox(final double x, final double y, final double z, final double topx, final double topy, final double topz, final int color, final BufferBuilder buf) {
+		ClientPosHighlighter.drawYalignedSquare	(x, 	y, 		z, 		topx, 	topz, 			buf, color);
+		ClientPosHighlighter.drawYalignedSquare	(x, 	topy, 	z, 		topx, 	topz, 			buf, color);
 
-		ClientPosHighlighter.drawYalignedSquare(x, 	y, 		z, 	topx, 	topz, 	buf);
-		ClientPosHighlighter.drawYalignedSquare(x, 	topy, 	z, 	topx, 	topz, 	buf);
-
-		ClientPosHighlighter.drawLine(x, 	y, 	z, 		x, 		topy, z, 	buf);
-		ClientPosHighlighter.drawLine(topx, y, 	z, 		topx, 	topy, z, 	buf);
-		ClientPosHighlighter.drawLine(x, 	y, 	topz, 	x, 		topy, topz, buf);
-		ClientPosHighlighter.drawLine(topx, y, 	topz, 	topx, 	topy, topz,	buf);
-
+		ClientPosHighlighter.drawLine			(x, 	y, 		z, 		x, 		topy, 	z, 		buf, color);
+		ClientPosHighlighter.drawLine			(topx, 	y, 		z, 		topx, 	topy, 	z, 		buf, color);
+		ClientPosHighlighter.drawLine			(x, 	y, 		topz, 	x, 		topy, 	topz, 	buf, color);
+		ClientPosHighlighter.drawLine			(topx, 	y, 		topz, 	topx, 	topy, 	topz,	buf, color);
 	}
 
-	public static void drawYalignedSquare(final double x, final double y, final double z, final double topx, final double topz, final BufferBuilder buf) {
+	public static void drawYalignedSquare(final double x, final double y, final double z, final double topx, final double topz, final BufferBuilder buf, int color) {
 		buf.vertex(x, 		y, z).		color(0).next();
-		buf.vertex(x, 		y, z).		color(ClientPosHighlighter.BASE_COLOR).next();
-		buf.vertex(x, 		y, topz).	color(ClientPosHighlighter.BASE_COLOR).next();
-		buf.vertex(topx, 	y, topz).	color(ClientPosHighlighter.BASE_COLOR).next();
-		buf.vertex(topx, 	y, z).		color(ClientPosHighlighter.BASE_COLOR).next();
-		buf.vertex(x, 		y, z).		color(ClientPosHighlighter.BASE_COLOR).next();
+		buf.vertex(x, 		y, z).		color(color).next();
+		buf.vertex(x, 		y, topz).	color(color).next();
+		buf.vertex(topx, 	y, topz).	color(color).next();
+		buf.vertex(topx, 	y, z).		color(color).next();
+		buf.vertex(x, 		y, z).		color(color).next();
 		buf.vertex(x, 		y, z).		color(0).next();
 	}
 
 
 
-	public static void drawLine(final double fx, final double fy, final double fz, final double tx, final double ty, final double tz, final BufferBuilder bufferBuilder) {
-		bufferBuilder.vertex(fx, fy, fz).color(0f, 0f, 0f, 0f).next();
-		bufferBuilder.vertex(fx, fy, fz).color(1f, 1f, 1f, 1f).next();
-		bufferBuilder.vertex(tx, ty, tz).color(1f, 1f, 1f, 1f).next();
-		bufferBuilder.vertex(tx, ty, tz).color(0f, 0f, 0f, 0f).next();
+	public static void drawLine(final double fx, final double fy, final double fz, final double tx, final double ty, final double tz, final BufferBuilder bufferBuilder, int color) {
+		bufferBuilder.vertex(fx, fy, fz).color(0).next();
+		bufferBuilder.vertex(fx, fy, fz).color(color).next();
+		bufferBuilder.vertex(tx, ty, tz).color(color).next();
+		bufferBuilder.vertex(tx, ty, tz).color(0).next();
 	}
 
 	public static void render(final WorldRenderContext wrc)
@@ -151,5 +203,9 @@ public class ClientPosHighlighter {
 		{
 			ClientPosHighlighter.render(wrc.matrixStack(), wrc.consumers(), wrc.camera(), wrc.gameRenderer(), wrc.world());
 		}
+	}
+	
+	interface Renderer {
+		void draw(final double x, final double y, final double z, final double topx, final double topy, final double topz, final int color, final BufferBuilder buf);
 	}
 }

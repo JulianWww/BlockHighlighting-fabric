@@ -43,10 +43,10 @@ if (version.endsWith('-dev')) {
 }
 
 processResources {
-	inputs.property "version", project.mod_version
+	inputs.property "mod_version", version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.mod_version
+		expand "mod_version": version
 	}
 }
 
