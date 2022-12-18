@@ -1,13 +1,14 @@
 {
   "schemaVersion": 1,
   "id": "clientblockhighlighting",
-  "version": "${version}",
+  "version": "${mod_version}",
 
   "name": "ClientBlockHighlighting",
   "description": "Client Side Block Highlighter",
   "authors": [
-    "denanu"
+    "Denanu"
   ],
+  "environment": "client",
   "contact": {
     "homepage": "https://fabricmc.net/",
     "sources": "https://github.com/FabricMC/fabric-example-mod"

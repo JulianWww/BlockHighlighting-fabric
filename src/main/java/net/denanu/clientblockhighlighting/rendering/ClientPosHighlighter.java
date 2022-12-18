@@ -22,7 +22,7 @@ import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 
-public class ClientBoxHighlighter {
+public class ClientPosHighlighter {
 	private static Semaphore mutex = new Semaphore(1);
 
 	protected static final int RANGE = 10000*1000;
@@ -33,30 +33,30 @@ public class ClientBoxHighlighter {
 
 	public static void highlight(final BlockPos pos) {
 		try {
-			ClientBoxHighlighter.mutex.acquire();
-			ClientBoxHighlighter.poses.add(pos);
+			ClientPosHighlighter.mutex.acquire();
+			ClientPosHighlighter.poses.add(pos);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		ClientBoxHighlighter.mutex.release();
+		ClientPosHighlighter.mutex.release();
 	}
 
 	public static void unHighlight(final BlockPos pos) {
 		try {
-			ClientBoxHighlighter.mutex.acquire();
-			ClientBoxHighlighter.poses.remove(pos);
+			ClientPosHighlighter.mutex.acquire();
+			ClientPosHighlighter.poses.remove(pos);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		ClientBoxHighlighter.mutex.release();
+		ClientPosHighlighter.mutex.release();
 	}
 
 	public static void highlight(final BlockPos pos, final boolean active) {
 		if (active) {
-			ClientBoxHighlighter.highlight(pos);
+			ClientPosHighlighter.highlight(pos);
 		}
 		else {
-			ClientBoxHighlighter.unHighlight(pos);
+			ClientPosHighlighter.unHighlight(pos);
 		}
 	}
 
@@ -72,8 +72,8 @@ public class ClientBoxHighlighter {
 
 		//final Vec3d camPos = camera.getPos();
 
-		for (BlockPos pos : ClientBoxHighlighter.poses) {
-			ClientBoxHighlighter.drawBox(pos, bufferBuilder, camera, world.getBlockState(pos).getOutlineShape(world, pos));
+		for (BlockPos pos : ClientPosHighlighter.poses) {
+			ClientPosHighlighter.drawBox(pos, bufferBuilder, camera, world.getBlockState(pos).getOutlineShape(world, pos));
 		}
 
 		// render script here
@@ -116,23 +116,23 @@ public class ClientBoxHighlighter {
 			topz = zpos + offset + voxel.getMax(Direction.Axis.Z);
 		}
 
-		ClientBoxHighlighter.drawYalignedSquare(x, 	y, 		z, 	topx, 	topz, 	buf);
-		ClientBoxHighlighter.drawYalignedSquare(x, 	topy, 	z, 	topx, 	topz, 	buf);
+		ClientPosHighlighter.drawYalignedSquare(x, 	y, 		z, 	topx, 	topz, 	buf);
+		ClientPosHighlighter.drawYalignedSquare(x, 	topy, 	z, 	topx, 	topz, 	buf);
 
-		ClientBoxHighlighter.drawLine(x, 	y, 	z, 		x, 		topy, z, 	buf);
-		ClientBoxHighlighter.drawLine(topx, y, 	z, 		topx, 	topy, z, 	buf);
-		ClientBoxHighlighter.drawLine(x, 	y, 	topz, 	x, 		topy, topz, buf);
-		ClientBoxHighlighter.drawLine(topx, y, 	topz, 	topx, 	topy, topz,	buf);
+		ClientPosHighlighter.drawLine(x, 	y, 	z, 		x, 		topy, z, 	buf);
+		ClientPosHighlighter.drawLine(topx, y, 	z, 		topx, 	topy, z, 	buf);
+		ClientPosHighlighter.drawLine(x, 	y, 	topz, 	x, 		topy, topz, buf);
+		ClientPosHighlighter.drawLine(topx, y, 	topz, 	topx, 	topy, topz,	buf);
 
 	}
 
 	public static void drawYalignedSquare(final double x, final double y, final double z, final double topx, final double topz, final BufferBuilder buf) {
 		buf.vertex(x, 		y, z).		color(0).next();
-		buf.vertex(x, 		y, z).		color(ClientBoxHighlighter.BASE_COLOR).next();
-		buf.vertex(x, 		y, topz).	color(ClientBoxHighlighter.BASE_COLOR).next();
-		buf.vertex(topx, 	y, topz).	color(ClientBoxHighlighter.BASE_COLOR).next();
-		buf.vertex(topx, 	y, z).		color(ClientBoxHighlighter.BASE_COLOR).next();
-		buf.vertex(x, 		y, z).		color(ClientBoxHighlighter.BASE_COLOR).next();
+		buf.vertex(x, 		y, z).		color(ClientPosHighlighter.BASE_COLOR).next();
+		buf.vertex(x, 		y, topz).	color(ClientPosHighlighter.BASE_COLOR).next();
+		buf.vertex(topx, 	y, topz).	color(ClientPosHighlighter.BASE_COLOR).next();
+		buf.vertex(topx, 	y, z).		color(ClientPosHighlighter.BASE_COLOR).next();
+		buf.vertex(x, 		y, z).		color(ClientPosHighlighter.BASE_COLOR).next();
 		buf.vertex(x, 		y, z).		color(0).next();
 	}
 
@@ -147,9 +147,9 @@ public class ClientBoxHighlighter {
 
 	public static void render(final WorldRenderContext wrc)
 	{
-		if (!ClientBoxHighlighter.poses.isEmpty())
+		if (!ClientPosHighlighter.poses.isEmpty())
 		{
-			ClientBoxHighlighter.render(wrc.matrixStack(), wrc.consumers(), wrc.camera(), wrc.gameRenderer(), wrc.world());
+			ClientPosHighlighter.render(wrc.matrixStack(), wrc.consumers(), wrc.camera(), wrc.gameRenderer(), wrc.world());
 		}
 	}
 }
