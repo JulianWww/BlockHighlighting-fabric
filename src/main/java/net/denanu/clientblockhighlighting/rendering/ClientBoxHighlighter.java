@@ -62,7 +62,7 @@ public class ClientBoxHighlighter {
 
 	public static <VillageBoundingBox> void render(final MatrixStack matrixStack, @Nullable final VertexConsumerProvider consumers, final Camera camera, final GameRenderer gameRenderer, final ClientWorld world) {
 		RenderSystem.enableDepthTest();
-		RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+		RenderSystem.setShader(GameRenderer::getPositionColorShader);
 		final Tessellator tessellator = Tessellator.getInstance();
 		final BufferBuilder bufferBuilder = tessellator.getBuffer();
 		RenderSystem.disableTexture();
