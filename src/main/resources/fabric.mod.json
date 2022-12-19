@@ -18,11 +18,17 @@
   "icon": "assets/clientblockhighlighting/icon.png",
 
   "entrypoints": {
+  	"main": [
+  		"net.denanu.clientblockhighlighting.Mod"
+  	],
     "client": [
-      "net.denanu.clientblockhighlighting.Mod"
+      	"net.denanu.clientblockhighlighting.ModClient"
     ],
     "modmenu": [
       "net.denanu.clientblockhighlighting.compat.modmenu.ModMenuImpl"
+    ],
+    "cardinal-components-chunk": [
+      "net.denanu.clientblockhighlighting.components.ChunkComponents"
     ]
   },
   "mixins": [
@@ -37,5 +43,11 @@
   },
   "suggests": {
     "another-mod": "*"
-  }
+  },
+  
+  "custom": {
+        "cardinal-components": [
+            "clientblockhighlighting:chungkhighlights"
+        ]
+    }
 }

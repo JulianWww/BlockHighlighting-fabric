@@ -13,6 +13,11 @@ group = project.maven_group
 repositories {
 	maven { url 'https://masa.dy.fi/maven/' }
 	maven { url 'https://maven.terraformersmc.com/releases/' }
+	
+	maven {
+        name = 'Ladysnake Mods'
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+    }
 }
 
 dependencies {
@@ -27,10 +32,11 @@ dependencies {
 	modImplementation "fi.dy.masa.malilib:malilib-fabric-${project.minecraft_version}:${project.malilib_version}"
 	modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
-	// Uncomment the following line to enable the deprecated Fabric API modules. 
-	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
-
-	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.0.2"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:5.0.2"
+    
+    include "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.0.2"
+    include "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:5.0.2"
 }
 
 
