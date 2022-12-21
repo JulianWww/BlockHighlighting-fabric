@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "clientblockhighlighting",
-  "version": "1.0.4",
+  "version": "${mod_version}",
 
   "name": "ClientBlockHighlighting",
   "description": "Client Side Block Highlighter",
