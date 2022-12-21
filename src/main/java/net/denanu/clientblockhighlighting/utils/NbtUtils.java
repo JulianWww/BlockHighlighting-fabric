@@ -48,8 +48,7 @@ public class NbtUtils {
 		return list;
 	}
 
-	public static <E extends Map<Identifier, HashSet<BlockPos>>> NbtCompound toNbt(final E data){
-		final NbtCompound nbt = new NbtCompound();
+	public static <E extends Map<Identifier, HashSet<BlockPos>>> NbtCompound toNbt(final E data, final NbtCompound nbt){
 		for (final Entry<Identifier, HashSet<BlockPos>> entry : data.entrySet()) {
 			nbt.put(entry.getKey().toString(), NbtUtils.toNbt(entry.getValue()));
 		}
