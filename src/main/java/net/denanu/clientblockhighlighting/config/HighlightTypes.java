@@ -20,7 +20,7 @@ public class HighlightTypes {
 	}
 
 	public static HighlightType register(final String mod, final String name, final String outlineColor, final String fillColor) {
-		return HighlightTypes.register(HighlightType.of(name, name, outlineColor, fillColor));
+		return HighlightTypes.register(HighlightType.of(name, name, fillColor, outlineColor));
 	}
 
 	public static HighlightType register(final HighlightType highlighter) {

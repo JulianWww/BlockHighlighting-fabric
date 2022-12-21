@@ -1,5 +1,6 @@
 package net.denanu.clientblockhighlighting.config;
 
+import fi.dy.masa.malilib.config.options.ConfigBoolean;
 import fi.dy.masa.malilib.config.options.ConfigColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
@@ -7,6 +8,7 @@ import net.minecraft.util.InvalidIdentifierException;
 public class HighlightType extends Identifier {
 	ConfigColor outlineColor;
 	ConfigColor fillColor;
+	ConfigBoolean shouldRender;
 
 	public HighlightType(final String id) {
 		super(id);
@@ -18,18 +20,20 @@ public class HighlightType extends Identifier {
 		this.assignDefalultValues(path);
 	}
 
-	public HighlightType(final String id, final ConfigColor outline, final ConfigColor fill) {
+	public HighlightType(final String id, final ConfigColor outline, final ConfigColor fill, final ConfigBoolean shouldRender) {
 		super(id);
 		this.outlineColor = outline;
 		this.fillColor = fill;
+		this.shouldRender = shouldRender;
 
 		this.register();
 	}
 
-	public HighlightType(final String namespace, final String path, final ConfigColor outline, final ConfigColor fill) {
+	public HighlightType(final String namespace, final String path, final ConfigColor outline, final ConfigColor fill, final ConfigBoolean shouldRender) {
 		super(namespace, path);
 		this.outlineColor = outline;
 		this.fillColor = fill;
+		this.shouldRender = shouldRender;
 
 		this.register();
 	}
@@ -46,7 +50,7 @@ public class HighlightType extends Identifier {
 
 	public static HighlightType of(final String namespace, final String id, final String fillColor, final String outlineColor) {
 		try {
-			return new HighlightType(namespace, id, HighlightType.getOutlineColor(id, outlineColor), HighlightType.getFillColor(id, fillColor));
+			return new HighlightType(namespace, id, HighlightType.getOutlineColor(id, outlineColor), HighlightType.getFillColor(id, fillColor), HighlightType.getShouldRender(id, false));
 		}
 		catch (final InvalidIdentifierException invalidIdentifierException) {
 			return null;
@@ -55,8 +59,8 @@ public class HighlightType extends Identifier {
 
 	private void assignDefalultValues(final String name) {
 		this.outlineColor = HighlightType.getOutlineColor(name, "#FFFFFFFF");
-
 		this.fillColor = HighlightType.getFillColor(name, "#20FFFFFF");
+		this.shouldRender = HighlightType.getShouldRender(name, false);
 
 		this.register();
 	}
@@ -74,6 +78,14 @@ public class HighlightType extends Identifier {
 				new StringBuilder().append(name).append("Fill").toString(),
 				color,
 				new StringBuilder().append("Fill color of the ").append(name).append(" highlight group").toString()
+				);
+	}
+
+	private static ConfigBoolean getShouldRender(final String name, final boolean val) {
+		return new ConfigBoolean(
+				"Render" + name,
+				val,
+				new StringBuilder().append("whether or not to render the ").append(name).append(" Highlighter").toString()
 				);
 	}
 
