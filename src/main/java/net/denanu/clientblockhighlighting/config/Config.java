@@ -11,6 +11,7 @@ import fi.dy.masa.malilib.config.ConfigUtils;
 import fi.dy.masa.malilib.config.IConfigBase;
 import fi.dy.masa.malilib.config.IConfigHandler;
 import fi.dy.masa.malilib.config.options.ConfigBoolean;
+import fi.dy.masa.malilib.config.options.ConfigInteger;
 import fi.dy.masa.malilib.util.FileUtils;
 import fi.dy.masa.malilib.util.JsonUtils;
 import net.denanu.clientblockhighlighting.Mod;
@@ -20,9 +21,11 @@ public class Config implements IConfigHandler {
 
 	public static class Generic {
 		public static final ConfigBoolean SHOULD_RENDER = new ConfigBoolean("shouldrender", true, "Should Render Highlights", "Should Render Highlights");
+		public static final ConfigInteger RENDER_DISTANCE = new ConfigInteger("renderDistance", 2, 0, 10, "Distance to render Highlights at");
 
 		public static final ImmutableList<IConfigBase> OPTIONS = ImmutableList.of(
-				Generic.SHOULD_RENDER
+				Generic.SHOULD_RENDER,
+				Generic.RENDER_DISTANCE
 				);
 	}
 

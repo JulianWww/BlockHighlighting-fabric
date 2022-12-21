@@ -1,5 +1,6 @@
 package net.denanu.clientblockhighlighting.rendering;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.concurrent.Semaphore;
 
@@ -7,6 +8,11 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.denanu.clientblockhighlighting.components.ChunkComponents;
+import net.denanu.clientblockhighlighting.components.component.IChunkComponent;
+import net.denanu.clientblockhighlighting.config.Config;
+import net.denanu.clientblockhighlighting.config.HighlightType;
+import net.denanu.clientblockhighlighting.config.HighlightTypes;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Camera;
@@ -18,8 +24,11 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.EmptyChunk;
 
 public class ClientPosHighlighter {
 	private static Semaphore mutex = new Semaphore(1);
@@ -57,7 +66,16 @@ public class ClientPosHighlighter {
 		}
 	}
 
-	public static <VillageBoundingBox> void render(final MatrixStack matrixStack, @Nullable final VertexConsumerProvider consumers, final Camera camera, final GameRenderer gameRenderer, final ClientWorld world) {
+	public static <VillageBoundingBox> void render(
+			final MatrixStack matrixStack,
+			@Nullable final VertexConsumerProvider consumers,
+			final Camera camera,
+			final GameRenderer gameRenderer,
+			final ClientWorld world,
+			final int fillColor,
+			final int outlineColor,
+			final Collection<BlockPos> poses
+			) {
 		RenderSystem.enableDepthTest();
 		RenderSystem.setShader(GameRenderer::getPositionColorShader);
 		final Tessellator tessellator = Tessellator.getInstance();
@@ -72,8 +90,8 @@ public class ClientPosHighlighter {
 
 		//final Vec3d camPos = camera.getPos();
 
-		for (final BlockPos pos : ClientPosHighlighter.poses) {
-			ClientPosHighlighter.drawOutlineBox(pos, bufferBuilder, camera, world.getBlockState(pos).getOutlineShape(world, pos));
+		for (final BlockPos pos : poses) {
+			ClientPosHighlighter.drawOutlineBox(pos, bufferBuilder, camera, world.getBlockState(pos).getOutlineShape(world, pos), outlineColor);
 		}
 
 		// render script here
@@ -82,8 +100,8 @@ public class ClientPosHighlighter {
 		bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 
 
-		for (final BlockPos pos : ClientPosHighlighter.poses) {
-			ClientPosHighlighter.drawFillBox(pos, bufferBuilder, camera, world.getBlockState(pos).getOutlineShape(world, pos));
+		for (final BlockPos pos : poses) {
+			ClientPosHighlighter.drawFillBox(pos, bufferBuilder, camera, world.getBlockState(pos).getOutlineShape(world, pos), fillColor);
 		}
 
 
@@ -94,12 +112,12 @@ public class ClientPosHighlighter {
 
 	}
 
-	private static void drawFillBox(final BlockPos pos, final BufferBuilder buf, final Camera camera, final VoxelShape voxel) {
-		ClientPosHighlighter.drawBox(pos, buf, camera, voxel, ClientPosHighlighter::drawFilledBox, 0, 0.01);
+	private static void drawFillBox(final BlockPos pos, final BufferBuilder buf, final Camera camera, final VoxelShape voxel, final int color) {
+		ClientPosHighlighter.drawBox(pos, buf, camera, voxel, ClientPosHighlighter::drawFilledBox, color, 0.01);
 	}
 
-	private static void drawOutlineBox(final BlockPos pos, final BufferBuilder buf, final Camera camera, final VoxelShape voxel) {
-		ClientPosHighlighter.drawBox(pos, buf, camera, voxel, ClientPosHighlighter::drawOutlineBox, 0, 0.01);
+	private static void drawOutlineBox(final BlockPos pos, final BufferBuilder buf, final Camera camera, final VoxelShape voxel, final int color) {
+		ClientPosHighlighter.drawBox(pos, buf, camera, voxel, ClientPosHighlighter::drawOutlineBox, color, 0.01);
 	}
 
 	private static void drawBox(final BlockPos pos, final BufferBuilder buf, final Camera camera, final VoxelShape voxel, final Renderer renderer, final int color, final double offset) {
@@ -197,9 +215,29 @@ public class ClientPosHighlighter {
 
 	public static void render(final WorldRenderContext wrc)
 	{
-		if (!ClientPosHighlighter.poses.isEmpty())
+		if (Config.Generic.SHOULD_RENDER.getBooleanValue())
 		{
-			ClientPosHighlighter.render(wrc.matrixStack(), wrc.consumers(), wrc.camera(), wrc.gameRenderer(), wrc.world());
+			ChunkPos.stream(new ChunkPos(wrc.camera().getBlockPos()), Math.min(Config.Generic.RENDER_DISTANCE.getIntegerValue(), wrc.world().getSimulationDistance()))
+			.forEach(pos -> {
+				ClientPosHighlighter.renderChunk(wrc, wrc.world().getChunk(pos.getBlockPos(0, 0, 0)));
+			});
+
+		}
+	}
+
+	private static void renderChunk(final WorldRenderContext wrc, final Chunk chunk) {
+		if (chunk instanceof EmptyChunk) {
+			return;
+		}
+		final IChunkComponent highlighter = ChunkComponents.HIGHLIGHTS.get(chunk);
+		for (final HighlightType type : HighlightTypes.HIGHLIGHT_TYPES) {
+			ClientPosHighlighter.renderChunkType(wrc, highlighter.getPoses(type), type);
+		}
+	}
+
+	private static void renderChunkType(final WorldRenderContext wrc, final Collection<BlockPos> poses, final HighlightType type) {
+		if (!poses.isEmpty()) {
+			ClientPosHighlighter.render(wrc.matrixStack(), wrc.consumers(), wrc.camera(), wrc.gameRenderer(), wrc.world(), type.getFillColor().getIntegerValue(), type.getOutlineColor().getIntegerValue(), poses);
 		}
 	}
 

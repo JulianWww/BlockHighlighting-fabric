@@ -26,6 +26,9 @@
     ],
     "modmenu": [
       "net.denanu.clientblockhighlighting.compat.modmenu.ModMenuImpl"
+    ],
+    "cardinal-components-chunk": [
+       "net.denanu.clientblockhighlighting.components.ChunkComponents"
     ]
   },
   "mixins": [
@@ -45,12 +48,6 @@
   "custom": {
         "cardinal-components": [
             "clientblockhighlighting:chunkhighlight"
-        ]
-    },
-    
-    "entrypoints": {
-        "cardinal-components-chunk": [
-            "net.denanu.clientblockhighlighting.components.component.ChunkComponents"
         ]
     }
 }
