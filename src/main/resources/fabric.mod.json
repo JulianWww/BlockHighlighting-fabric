@@ -19,6 +19,9 @@
 
   "entrypoints": {
     "client": [
+      "net.denanu.clientblockhighlighting.ModClient"
+    ],
+    "main": [
       "net.denanu.clientblockhighlighting.Mod"
     ],
     "modmenu": [
