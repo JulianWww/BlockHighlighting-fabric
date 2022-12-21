@@ -16,13 +16,14 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.chunk.Chunk;
 
 public class ChunkComponent implements IChunkComponent {
-	Object provider;
+	Chunk provider;
 
 	HashMap<Identifier, HashSet<BlockPos>> highlights;
 
-	public ChunkComponent(final Object provider) {
+	public ChunkComponent(final Chunk provider) {
 		this.provider = provider;
 
 		this.highlights = new HashMap<>();
@@ -67,16 +68,17 @@ public class ChunkComponent implements IChunkComponent {
 
 	@Override
 	public void readFromNbt(final NbtCompound tag) {
-		NbtUtils.toNbt(this.highlights, tag);
+		this.highlights = NbtUtils.fromNbt(tag, this.highlights);
 	}
 
 	@Override
 	public void writeToNbt(final NbtCompound tag) {
-		this.highlights = NbtUtils.fromNbt(tag, this.highlights);
+		NbtUtils.toNbt(this.highlights, tag);
 	}
 
 	private void update(final Identifier key, final Collection<BlockPos> poses, final boolean action) {
 		ChunkComponents.HIGHLIGHTS.sync(this.provider, (buf, p) -> ChunkComponent.minimalSync(buf, key, poses, action));
+		this.provider.setNeedsSaving(true);
 	}
 
 	private static void minimalSync(final PacketByteBuf buf, final Identifier key, final Collection<BlockPos> poses, final boolean action) {
