@@ -92,6 +92,8 @@ public class HighlightType extends Identifier {
 	private void register() {
 		Config.Color.OPTIONS.add(this.outlineColor);
 		Config.Color.OPTIONS.add(this.fillColor);
+
+		Config.Generic.OPTIONS.add(this.shouldRender);
 	}
 
 	public ConfigColor getOutlineColor() {
@@ -100,5 +102,9 @@ public class HighlightType extends Identifier {
 
 	public ConfigColor getFillColor() {
 		return this.fillColor;
+	}
+
+	public ConfigBoolean getShouldRender() {
+		return this.shouldRender;
 	}
 }

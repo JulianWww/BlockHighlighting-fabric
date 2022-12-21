@@ -3,7 +3,6 @@ package net.denanu.clientblockhighlighting.config;
 import java.io.File;
 import java.util.ArrayList;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -20,13 +19,15 @@ public class Config implements IConfigHandler {
 	private static final String CONFIG_FILE_NAME = Mod.MOD_ID + ".json";
 
 	public static class Generic {
-		public static final ConfigBoolean SHOULD_RENDER = new ConfigBoolean("shouldrender", true, "Should Render Highlights", "Should Render Highlights");
-		public static final ConfigInteger RENDER_DISTANCE = new ConfigInteger("renderDistance", 2, 0, 10, "Distance to render Highlights at");
+		public static final ArrayList<IConfigBase> OPTIONS = new ArrayList<>();
 
-		public static final ImmutableList<IConfigBase> OPTIONS = ImmutableList.of(
-				Generic.SHOULD_RENDER,
-				Generic.RENDER_DISTANCE
-				);
+		public static final ConfigBoolean SHOULD_RENDER 	= Generic.register(new ConfigBoolean("shouldrender", true, "Should Render Highlights", "Should Render Highlights"));
+		public static final ConfigInteger RENDER_DISTANCE 	= Generic.register(new ConfigInteger("renderDistance", 2, 0, 10, "Distance to render Highlights at"));
+
+		private static <T extends IConfigBase> T register(final T config) {
+			Generic.OPTIONS.add(config);
+			return config;
+		}
 	}
 
 	public static class Color {

@@ -231,7 +231,9 @@ public class ClientPosHighlighter {
 		}
 		final IChunkComponent highlighter = ChunkComponents.HIGHLIGHTS.get(chunk);
 		for (final HighlightType type : HighlightTypes.HIGHLIGHT_TYPES) {
-			ClientPosHighlighter.renderChunkType(wrc, highlighter.getPoses(type), type);
+			if (type.getShouldRender().getBooleanValue()) {
+				ClientPosHighlighter.renderChunkType(wrc, highlighter.getPoses(type), type);
+			}
 		}
 	}
 
