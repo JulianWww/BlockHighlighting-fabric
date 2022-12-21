@@ -51,6 +51,18 @@ public class BlockHighlighterComponent implements IBlockHighlighterComponent {
 		this.sync(new KeyUpdate(key, poses, true));
 	}
 
+	@Override
+	public void removePos(final Identifier key, final BlockPos pos) {
+		this.positionMap.get(key).remove(pos);
+
+		this.sync(new KeyUpdate(key, ImmutableList.of(pos), false));
+	}
+
+
+
+
+
+
 	private void sync(final KeyUpdate updater) {
 		ChunkComponents.CHUNK_HIGHLIGHTS.sync(this.provider, (buf, p) -> updater.toBuf(buf));
 	}
@@ -67,7 +79,7 @@ public class BlockHighlighterComponent implements IBlockHighlighterComponent {
 	@Override
 	public void writeToNbt(final NbtCompound tag) {
 		for (final Entry<Identifier, HashSet<BlockPos>> entries : this.positionMap.entrySet()) {
-			tag.put(entries.toString(), NbtUtils.toNbt(entries.getValue()));
+			tag.put(entries.getKey().toString(), NbtUtils.toNbt(entries.getValue()));
 		}
 	}
 

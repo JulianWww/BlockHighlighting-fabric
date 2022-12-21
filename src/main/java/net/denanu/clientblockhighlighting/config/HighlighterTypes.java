@@ -6,7 +6,7 @@ import net.denanu.clientblockhighlighting.Mod;
 import net.minecraft.util.Identifier;
 
 public class HighlighterTypes {
-	public static ArrayList<Identifier> HIGHLIGHTERS = new ArrayList<>();
+	public static ArrayList<HighlighterType> HIGHLIGHTERS = new ArrayList<>();
 
 	public static Identifier DEFAULT_HIGHLIGHT = HighlighterTypes.register("default");
 
@@ -18,10 +18,10 @@ public class HighlighterTypes {
 	}
 
 	public static Identifier register(final String mod, final String key) {
-		return HighlighterTypes.register(Identifier.of(mod, key));
+		return HighlighterTypes.register(HighlighterType.of(mod, key));
 	}
 
-	public static Identifier register(final Identifier ident) {
+	public static Identifier register(final HighlighterType ident) {
 		HighlighterTypes.HIGHLIGHTERS.add(ident);
 		return ident;
 	}

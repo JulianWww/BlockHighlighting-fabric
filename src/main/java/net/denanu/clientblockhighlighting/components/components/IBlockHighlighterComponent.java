@@ -10,4 +10,6 @@ public interface IBlockHighlighterComponent extends AutoSyncedComponent {
 	Collection<BlockPos> getPoses(Identifier key);
 	void addPos(Identifier key, BlockPos pos);
 	void addPoses(Identifier key, Collection<BlockPos> poses);
+
+	void removePos(Identifier key, BlockPos pos);
 }
