@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
+import net.denanu.clientblockhighlighting.Mod;
 import net.denanu.clientblockhighlighting.components.ChunkComponents;
 import net.denanu.clientblockhighlighting.config.HighlightTypes;
 import net.denanu.clientblockhighlighting.utils.NbtUtils;
@@ -125,7 +126,12 @@ public class ChunkComponent implements IChunkComponent {
 			final Identifier id = buf2.readIdentifier();
 			final HashSet<BlockPos> poses = buf2.readCollection(HashSet<BlockPos>::new, PacketByteBuf::readBlockPos);
 
-			final HashSet<BlockPos> set = this.highlights.get(id);
+			HashSet<BlockPos> set = this.highlights.get(id);
+			if (set == null) {
+				set = new HashSet<>();
+				this.highlights.put(id, set);
+				Mod.LOGGER.warn("Unable to find key " + id.toString() + " in highlighter map");
+			}
 			set.clear();
 			set.addAll(poses);
 			return 1;

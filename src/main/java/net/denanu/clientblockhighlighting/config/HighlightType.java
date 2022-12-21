@@ -83,7 +83,7 @@ public class HighlightType extends Identifier {
 
 	private static ConfigBoolean getShouldRender(final String name, final boolean val) {
 		return new ConfigBoolean(
-				"Render" + name,
+				"Render " + name,
 				val,
 				new StringBuilder().append("whether or not to render the ").append(name).append(" Highlighter").toString()
 				);
