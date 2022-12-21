@@ -4,11 +4,11 @@
   "version": "${mod_version}",
 
   "name": "ClientBlockHighlighting",
-  "description": "Client Side Block Highlighter",
+  "description": "Block Highlighting Library",
   "authors": [
     "Denanu"
   ],
-  "environment": "client",
+  "environment": "",
   "contact": {
     "homepage": "https://fabricmc.net/",
     "sources": "https://github.com/FabricMC/fabric-example-mod"
@@ -42,7 +42,7 @@
     "java": ">=17"
   },
   "suggests": {
-    "another-mod": "*"
+    "another-mod": "modmenu"
   },
   
   "custom": {

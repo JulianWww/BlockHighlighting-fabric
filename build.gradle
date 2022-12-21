@@ -46,14 +46,14 @@ archivesBaseName = project.archives_base_name + '-' + project.minecraft_version
 version = project.mod_version
 
 if (version.endsWith('-dev')) {
-	version += "." + new Date().format('yyyyMMdd.HHmmss')
+	version += "-" + Long.toHexString(new Date().getTime())
 }
 
 processResources {
-	inputs.property "mod_version", project.mod_version
+	inputs.property "mod_version", version
 
 	filesMatching("fabric.mod.json") {
-		expand "mod_version": project.mod_version
+		expand "mod_version": version
 	}
 }
 
