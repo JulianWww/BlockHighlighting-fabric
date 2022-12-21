@@ -13,6 +13,10 @@ group = project.maven_group
 repositories {
 	maven { url 'https://masa.dy.fi/maven/' }
 	maven { url 'https://maven.terraformersmc.com/releases/' }
+	maven {
+		name = 'Ladysnake Mods'
+		url = 'https://ladysnake.jfrog.io/artifactory/mods'
+	}
 }
 
 dependencies {
