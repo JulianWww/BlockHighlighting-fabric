@@ -3,12 +3,17 @@ package net.denanu.clientblockhighlighting.components.component;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
+import com.google.common.collect.ImmutableList;
+
+import net.denanu.clientblockhighlighting.components.ChunkComponents;
 import net.denanu.clientblockhighlighting.config.HighlightTypes;
+import net.denanu.clientblockhighlighting.utils.NbtUtils;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -28,25 +33,26 @@ public class ChunkComponent implements IChunkComponent {
 
 	@Override
 	public void add(final Identifier key, final BlockPos pos) {
-		this.highlights.get(key).add(pos);
+		this.addAll(key, ImmutableList.of(pos));
 	}
 
 	@Override
 	public void addAll(final Identifier key, final Collection<BlockPos> poses) {
 		this.highlights.get(key).addAll(poses);
 
+		this.update(key, poses, true);
 	}
 
 	@Override
 	public void remove(final Identifier key, final BlockPos pos) {
-		this.highlights.get(key).remove(pos);
-
+		this.removeAll(key, ImmutableList.of(pos));
 	}
 
 	@Override
 	public void removeAll(final Identifier key, final Collection<BlockPos> poses) {
 		this.highlights.get(key).removeAll(poses);
 
+		this.update(key, poses, false);
 	}
 
 	@Override
@@ -61,19 +67,66 @@ public class ChunkComponent implements IChunkComponent {
 
 	@Override
 	public void readFromNbt(final NbtCompound tag) {
-		for (final Entry<Identifier, HashSet<BlockPos>> highlighter : this.highlights.entrySet()) {
-
-		}
+		NbtUtils.toNbt(this.highlights, tag);
 	}
 
 	@Override
 	public void writeToNbt(final NbtCompound tag) {
-		// TODO Auto-generated method stub
-
+		this.highlights = NbtUtils.fromNbt(tag, this.highlights);
 	}
 
-	private NbtList putToNbt(final Collection<BlockPos> pos) {
-
+	private void update(final Identifier key, final Collection<BlockPos> poses, final boolean action) {
+		ChunkComponents.HIGHLIGHTS.sync(this.provider, (buf, p) -> ChunkComponent.minimalSync(buf, key, poses, action));
 	}
 
+	private static void minimalSync(final PacketByteBuf buf, final Identifier key, final Collection<BlockPos> poses, final boolean action) {
+		buf.writeBoolean(false);
+		buf.writeBoolean(action);
+		buf.writeIdentifier(key);
+		buf.writeCollection(poses, PacketByteBuf::writeBlockPos);
+	}
+
+	@Override
+	public void writeSyncPacket(final PacketByteBuf buf, final ServerPlayerEntity player) {
+		buf.writeBoolean(true);
+		buf.writeCollection(this.highlights.entrySet(), (buf2, entry) -> {
+			buf2.writeIdentifier(entry.getKey());
+			buf2.writeCollection(entry.getValue(), PacketByteBuf::writeBlockPos);
+		});
+	}
+
+	@Override
+	public void applySyncPacket(final PacketByteBuf buf) {
+		if (buf.readBoolean()) {
+			this.applyFullSync(buf);
+		}
+		else {
+			this.applyMinimalSync(buf);
+		}
+	}
+
+	private void applyMinimalSync(final PacketByteBuf buf) {
+		final boolean action = buf.readBoolean();
+		final Identifier id = buf.readIdentifier();
+		final List<BlockPos> poses = buf.readList(PacketByteBuf::readBlockPos);
+
+		if (action) {
+			this.highlights.get(id).addAll(poses);
+		}
+		else {
+			this.highlights.get(id).removeAll(poses);
+		}
+	}
+
+	private void applyFullSync(final PacketByteBuf buf) {
+		buf.readList(buf2 -> {
+			final Identifier id = buf2.readIdentifier();
+			final HashSet<BlockPos> poses = buf2.readCollection(HashSet<BlockPos>::new, PacketByteBuf::readBlockPos);
+
+			final HashSet<BlockPos> set = this.highlights.get(id);
+			set.clear();
+			set.addAll(poses);
+			return 1;
+		});
+	}
 }
