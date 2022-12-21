@@ -40,5 +40,17 @@
   },
   "suggests": {
     "another-mod": "*"
-  }
+  },
+  
+  "custom": {
+        "cardinal-components": [
+            "clientblockhighlighting:chunkhighlight"
+        ]
+    },
+    
+    "entrypoints": {
+        "cardinal-components-chunk": [
+            "net.denanu.clientblockhighlighting.components.component.ChunkComponents"
+        ]
+    }
 }
