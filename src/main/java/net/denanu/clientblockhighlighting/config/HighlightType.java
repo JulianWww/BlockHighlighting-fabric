@@ -44,20 +44,37 @@ public class HighlightType extends Identifier {
 		}
 	}
 
-	private void assignDefalultValues(final String name) {
-		this.outlineColor = new ConfigColor(
-				new StringBuilder().append(name).append("Outline").toString(),
-				"#FFFFFFFF",
-				new StringBuilder().append("Outline color of the ").append(name).append(" highlight group").toString()
-				);
+	public static HighlightType of(final String namespace, final String id, final String fillColor, final String outlineColor) {
+		try {
+			return new HighlightType(namespace, id, HighlightType.getOutlineColor(id, outlineColor), HighlightType.getFillColor(id, fillColor));
+		}
+		catch (final InvalidIdentifierException invalidIdentifierException) {
+			return null;
+		}
+	}
 
-		this.fillColor = new ConfigColor(
-				new StringBuilder().append(name).append("Fill").toString(),
-				"#20FFFFFF",
-				new StringBuilder().append("Fill color of the ").append(name).append(" highlight group").toString()
-				);
+	private void assignDefalultValues(final String name) {
+		this.outlineColor = HighlightType.getOutlineColor(name, "#FFFFFFFF");
+
+		this.fillColor = HighlightType.getFillColor(name, "#20FFFFFF");
 
 		this.register();
+	}
+
+	private static ConfigColor getOutlineColor(final String name, final String color) {
+		return new ConfigColor(
+				new StringBuilder().append(name).append("Outline").toString(),
+				color,
+				new StringBuilder().append("Outline color of the ").append(name).append(" highlight group").toString()
+				);
+	}
+
+	private static ConfigColor getFillColor(final String name, final String color) {
+		return new ConfigColor(
+				new StringBuilder().append(name).append("Fill").toString(),
+				color,
+				new StringBuilder().append("Fill color of the ").append(name).append(" highlight group").toString()
+				);
 	}
 
 	private void register() {
