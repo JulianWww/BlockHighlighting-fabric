@@ -1,5 +1,5 @@
 name: "Build Release"
-on: "requested_action"
+on: requested_action
 jobs:
   build:
     runs-on: ubuntu-latest
