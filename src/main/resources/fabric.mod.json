@@ -1,16 +1,17 @@
 {
   "schemaVersion": 1,
-  "id": "clientblockhighlighting",
+  "id": "blockhighlighting",
   "version": "${mod_version}",
 
-  "name": "ClientBlockHighlighting",
+  "name": "BlockHighlighting",
   "description": "Block Highlighting Library",
   "authors": [
     "Denanu"
   ],
   "environment": "",
   "contact": {
-    "homepage": "https://fabricmc.net/",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/block-highlighting/",
+    "issues": "https://github.com/JulianWww/BlockHighlighting-fabric/issues",
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
 
