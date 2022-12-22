@@ -30,4 +30,4 @@ jobs:
           username: ${{ secrets.SCP_MAVEN_USERNAME }}
           key: ${{ secrets.SCP_MAVENKEY }}
           source: "pub/"
-          target: "/maven/B/html/maven/"
+          target: "/media/B/html/maven/"
