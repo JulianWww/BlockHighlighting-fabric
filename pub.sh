@@ -1,7 +1,9 @@
 #!/bin/bash
 
-rm -r pub
+rm -r maven
 
 ./gradlew publish
 
-scp -r pub/* ubuntu@wandhoven.ddns.net:/media/B/html/maven/
+scp -r maven/* ubuntu@wandhoven.ddns.net:/media/B/html/maven/
+
+rm -r maven

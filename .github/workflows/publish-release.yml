@@ -1,5 +1,7 @@
 name: "Build Release"
-on: [pull_request, push]
+on: 
+  release:
+    types: [published]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,7 +25,7 @@ jobs:
           id: build,
           run: "chmod +x gradlew && ./gradlew build publish",
         }
-      - name: "maven publish"
+      - name: "Publish maven to wandhoven.ddns.net"
         uses: appleboy/scp-action@master
         with:
           host: "wandhoven.ddns.net"
@@ -31,3 +33,12 @@ jobs:
           key: ${{ secrets.SCP_MAVENKEY }}
           source: "maven/"
           target: "/media/B/html/"
+      - name: "Upload to CurseForge"
+        uses: itsmeow/curseforge-upload@v3
+        with:
+          file_path: "build/libs/BlockHighlighting-${{ steps.all.outputs.minecraft_version }}-${{ steps.all.outputs.mod_version }}.jar"
+          game_endpoint: "minecraft"
+          relations: "fabric-api:requiredDependency"
+          game_versions: "Minecraft 1.19:1.19.2,Java 17,Fabric"
+          project_id: "770218"
+          token: "${{ secrets.CF_API_TOKEN }}"
