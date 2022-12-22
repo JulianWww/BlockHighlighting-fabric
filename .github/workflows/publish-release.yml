@@ -27,7 +27,7 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: "wandhoven.ddns.net"
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          username: ${{ secrets.SCP_MAVEN_USERNAME }}
+          key: ${{ secrets.SCP_MAVENKEY }}
           source: "pub/"
           target: "/maven/B/html/maven/"
