@@ -29,5 +29,5 @@ jobs:
           host: "wandhoven.ddns.net"
           username: ${{ secrets.SCP_MAVEN_USERNAME }}
           key: ${{ secrets.SCP_MAVENKEY }}
-          source: "pub/"
+          source: "pub/*"
           target: "/media/B/html/maven/"
