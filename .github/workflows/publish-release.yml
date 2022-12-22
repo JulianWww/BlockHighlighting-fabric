@@ -24,10 +24,10 @@ jobs:
           run: "chmod +x gradlew && ./gradlew build publish",
         }
       - name: "maven publish"
-          uses: appleboy/scp-action
-          with:
-            host: "wandhoven.ddns.net"
-            username: ${{ secrets.USERNAME }}
-            password: ${{ secrets.PASSWORD }}
-            source: "pub/"
-            target: "/maven/B/html/maven/"
+        uses: appleboy/scp-action
+        with:
+          host: "wandhoven.ddns.net"
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          source: "pub/"
+          target: "/maven/B/html/maven/"
