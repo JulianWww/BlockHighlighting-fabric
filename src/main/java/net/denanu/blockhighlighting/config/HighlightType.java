@@ -1,4 +1,4 @@
-package net.denanu.clientblockhighlighting.config;
+package net.denanu.blockhighlighting.config;
 
 import fi.dy.masa.malilib.config.options.ConfigBoolean;
 import fi.dy.masa.malilib.config.options.ConfigColor;

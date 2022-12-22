@@ -1,4 +1,4 @@
-package net.denanu.clientblockhighlighting.rendering;
+package net.denanu.blockhighlighting.rendering;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -8,11 +8,11 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.denanu.clientblockhighlighting.components.ChunkComponents;
-import net.denanu.clientblockhighlighting.components.component.IChunkComponent;
-import net.denanu.clientblockhighlighting.config.Config;
-import net.denanu.clientblockhighlighting.config.HighlightType;
-import net.denanu.clientblockhighlighting.config.HighlightTypes;
+import net.denanu.blockhighlighting.components.ChunkComponents;
+import net.denanu.blockhighlighting.components.component.IChunkComponent;
+import net.denanu.blockhighlighting.config.Config;
+import net.denanu.blockhighlighting.config.HighlightType;
+import net.denanu.blockhighlighting.config.HighlightTypes;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Camera;

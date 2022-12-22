@@ -1,4 +1,4 @@
-package net.denanu.clientblockhighlighting.utils;
+package net.denanu.blockhighlighting.utils;
 
 import java.util.HashSet;
 import java.util.Map;

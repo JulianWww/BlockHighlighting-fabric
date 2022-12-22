@@ -1,4 +1,4 @@
-package net.denanu.clientblockhighlighting.components.component;
+package net.denanu.blockhighlighting.components.component;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,10 +8,10 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
-import net.denanu.clientblockhighlighting.Mod;
-import net.denanu.clientblockhighlighting.components.ChunkComponents;
-import net.denanu.clientblockhighlighting.config.HighlightTypes;
-import net.denanu.clientblockhighlighting.utils.NbtUtils;
+import net.denanu.blockhighlighting.BlockHighlighting;
+import net.denanu.blockhighlighting.components.ChunkComponents;
+import net.denanu.blockhighlighting.config.HighlightTypes;
+import net.denanu.blockhighlighting.utils.NbtUtils;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -130,7 +130,7 @@ public class ChunkComponent implements IChunkComponent {
 			if (set == null) {
 				set = new HashSet<>();
 				this.highlights.put(id, set);
-				Mod.LOGGER.warn("Unable to find key " + id.toString() + " in highlighter map");
+				BlockHighlighting.LOGGER.warn("Unable to find key " + id.toString() + " in highlighter map");
 			}
 			set.clear();
 			set.addAll(poses);

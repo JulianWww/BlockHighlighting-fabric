@@ -1,9 +1,9 @@
-package net.denanu.clientblockhighlighting.compat.modmenu;
+package net.denanu.blockhighlighting.compat.modmenu;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 
-import net.denanu.clientblockhighlighting.config.GuiConfigs;
+import net.denanu.blockhighlighting.config.GuiConfigs;
 
 public class ModMenuImpl implements ModMenuApi
 {

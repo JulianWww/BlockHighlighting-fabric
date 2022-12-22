@@ -15,24 +15,24 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/clientblockhighlighting/icon.png",
+  "icon": "assets/blockhighlighting/icon.png",
 
   "entrypoints": {
     "client": [
-      "net.denanu.clientblockhighlighting.ModClient"
+      "net.denanu.blockhighlighting.BlockHighlightingClient"
     ],
     "main": [
-      "net.denanu.clientblockhighlighting.Mod"
+      "net.denanu.blockhighlighting.BlockHighlighting"
     ],
     "modmenu": [
-      "net.denanu.clientblockhighlighting.compat.modmenu.ModMenuImpl"
+      "net.denanu.blockhighlighting.compat.modmenu.ModMenuImpl"
     ],
     "cardinal-components-chunk": [
-       "net.denanu.clientblockhighlighting.components.ChunkComponents"
+       "net.denanu.blockhighlighting.components.ChunkComponents"
     ]
   },
   "mixins": [
-    "clientblockhighlighting.mixins.json"
+    "blockhighlighting.mixins.json"
   ],
 
   "depends": {
@@ -47,7 +47,7 @@
   
   "custom": {
         "cardinal-components": [
-            "clientblockhighlighting:chunkhighlight"
+            "blockhighlighting:chunkhighlight"
         ]
     }
 }

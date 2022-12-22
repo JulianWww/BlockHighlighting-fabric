@@ -1,6 +1,6 @@
-package net.denanu.clientblockhighlighting.config;
+package net.denanu.blockhighlighting.config;
 
-import net.denanu.clientblockhighlighting.config.GuiConfigs.ConfigGuiTab;
+import net.denanu.blockhighlighting.config.GuiConfigs.ConfigGuiTab;
 
 public class DataManager {
 	private static ConfigGuiTab currentTab = ConfigGuiTab.GENERIC;

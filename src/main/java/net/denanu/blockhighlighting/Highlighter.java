@@ -1,8 +1,8 @@
-package net.denanu.clientblockhighlighting;
+package net.denanu.blockhighlighting;
 
 import java.util.Collection;
 
-import net.denanu.clientblockhighlighting.components.ChunkComponents;
+import net.denanu.blockhighlighting.components.ChunkComponents;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;

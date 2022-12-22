@@ -1,8 +1,8 @@
-package net.denanu.clientblockhighlighting.config;
+package net.denanu.blockhighlighting.config;
 
 import java.util.ArrayList;
 
-import net.denanu.clientblockhighlighting.Mod;
+import net.denanu.blockhighlighting.BlockHighlighting;
 
 public class HighlightTypes {
 	public static ArrayList<HighlightType> HIGHLIGHT_TYPES = new ArrayList<>();
@@ -12,7 +12,7 @@ public class HighlightTypes {
 
 
 	private static HighlightType register(final String name) {
-		return HighlightTypes.register(Mod.MOD_ID, name);
+		return HighlightTypes.register(BlockHighlighting.MOD_ID, name);
 	}
 
 	public static HighlightType register(final String mod, final String name) {

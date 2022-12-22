@@ -1,12 +1,12 @@
-package net.denanu.clientblockhighlighting.comands;
+package net.denanu.blockhighlighting.comands;
 
 import javax.annotation.Nullable;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 
-import net.denanu.clientblockhighlighting.components.ChunkComponents;
-import net.denanu.clientblockhighlighting.config.HighlightTypes;
+import net.denanu.blockhighlighting.components.ChunkComponents;
+import net.denanu.blockhighlighting.config.HighlightTypes;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.server.command.CommandManager;

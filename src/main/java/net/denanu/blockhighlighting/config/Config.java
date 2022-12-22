@@ -1,4 +1,4 @@
-package net.denanu.clientblockhighlighting.config;
+package net.denanu.blockhighlighting.config;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,10 +13,10 @@ import fi.dy.masa.malilib.config.options.ConfigBoolean;
 import fi.dy.masa.malilib.config.options.ConfigInteger;
 import fi.dy.masa.malilib.util.FileUtils;
 import fi.dy.masa.malilib.util.JsonUtils;
-import net.denanu.clientblockhighlighting.Mod;
+import net.denanu.blockhighlighting.BlockHighlighting;
 
 public class Config implements IConfigHandler {
-	private static final String CONFIG_FILE_NAME = Mod.MOD_ID + ".json";
+	private static final String CONFIG_FILE_NAME = BlockHighlighting.MOD_ID + ".json";
 
 	public static class Generic {
 		public static final ArrayList<IConfigBase> OPTIONS = new ArrayList<>();

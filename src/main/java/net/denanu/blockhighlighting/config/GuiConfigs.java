@@ -1,4 +1,4 @@
-package net.denanu.clientblockhighlighting.config;
+package net.denanu.blockhighlighting.config;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,12 +10,12 @@ import fi.dy.masa.malilib.gui.button.ButtonBase;
 import fi.dy.masa.malilib.gui.button.ButtonGeneric;
 import fi.dy.masa.malilib.gui.button.IButtonActionListener;
 import fi.dy.masa.malilib.util.StringUtils;
-import net.denanu.clientblockhighlighting.Mod;
+import net.denanu.blockhighlighting.BlockHighlighting;
 
 public class GuiConfigs extends GuiConfigsBase {
     public GuiConfigs()
     {
-        super(10, 50, Mod.MOD_ID, null, Mod.MOD_ID + ".gui.title.configs");
+        super(10, 50, BlockHighlighting.MOD_ID, null, BlockHighlighting.MOD_ID + ".gui.title.configs");
     }
 
     @Override
@@ -98,8 +98,8 @@ public class GuiConfigs extends GuiConfigsBase {
 
     public enum ConfigGuiTab
     {
-        GENERIC         (Mod.MOD_ID + ".gui.button.config_gui.generic"),
-    	COLOR			(Mod.MOD_ID + ".gui.button.config_gui.colors");
+        GENERIC         (BlockHighlighting.MOD_ID + ".gui.button.config_gui.generic"),
+    	COLOR			(BlockHighlighting.MOD_ID + ".gui.button.config_gui.colors");
 
         private final String translationKey;
 
