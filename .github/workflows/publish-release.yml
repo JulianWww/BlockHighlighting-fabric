@@ -1,7 +1,5 @@
 name: "Build Release"
-on: 
-  release:
-    types: [published]
+on: push
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,12 +23,11 @@ jobs:
           id: build,
           run: "chmod +x gradlew && ./gradlew build publish",
         }
-      - name: "Upload to CurseForge"
-        uses: itsmeow/curseforge-upload@v3
-        with:
-          file_path: "build/libs/BlockHighlighting-${{ steps.all.outputs.minecraft_version }}-${{ steps.all.outputs.mod_version }}.jar"
-          game_endpoint: "minecraft"
-          relations: "fabric-api:requiredDependency"
-          game_versions: "Minecraft 1.19:1.19.2,Java 17,Fabric"
-          project_id: "770218"
-          token: "${{ secrets.CF_API_TOKEN }}"
+      - name: copy file via ssh password
+          uses: appleboy/scp-action@master
+          with:
+            host: "wandhoven.ddns.net"
+            username: ${{ secrets.USERNAME }}
+            password: ${{ secrets.PASSWORD }}
+            source: "pub/"
+            target: "/maven/B/html/maven/"
