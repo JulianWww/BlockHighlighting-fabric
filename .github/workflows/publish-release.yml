@@ -8,9 +8,10 @@ jobs:
       - {
           uses: madhead/read-java-properties@latest,
           id: all,
-          with:
+          with: {
             file: gradle.properties,
-            all: true,
+            all: true
+          }
         }
       - {
           name: "Set up JDK 17",
