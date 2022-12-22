@@ -6,11 +6,11 @@ jobs:
     steps:
       - { uses: actions/checkout@v2, with: { fetch-depth: 0 } }
       - {
-          uses: madhead/read-java-properties@latest
-          id: all
+          uses: madhead/read-java-properties@latest,
+          id: all,
           with:
-            file: gradle.properties
-            all: true
+            file: gradle.properties,
+            all: true,
         }
       - {
           name: "Set up JDK 17",
