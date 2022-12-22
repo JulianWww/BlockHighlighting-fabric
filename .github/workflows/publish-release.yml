@@ -23,7 +23,7 @@ jobs:
           id: build,
           run: "chmod +x gradlew && ./gradlew build publish",
         }
-      - name: copy file via ssh password
+      - name: "maven publish"
           uses: appleboy/scp-action
           with:
             host: "wandhoven.ddns.net"
