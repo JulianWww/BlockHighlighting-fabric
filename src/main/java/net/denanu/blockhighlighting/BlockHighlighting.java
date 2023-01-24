@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.denanu.blockhighlighting.comands.HighlightCommands;
-import net.denanu.blockhighlighting.config.HighlightTypes;
+import net.denanu.blockhighlighting.config.HighlightIds;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
@@ -15,8 +15,7 @@ public class BlockHighlighting implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		HighlightTypes.setup();
-
 		CommandRegistrationCallback.EVENT.register(HighlightCommands::register);
+		HighlightIds.setup();
 	}
 }

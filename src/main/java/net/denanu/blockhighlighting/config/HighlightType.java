@@ -2,9 +2,13 @@ package net.denanu.blockhighlighting.config;
 
 import fi.dy.masa.malilib.config.options.ConfigBoolean;
 import fi.dy.masa.malilib.config.options.ConfigColor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 
+
+@Environment(EnvType.CLIENT)
 public class HighlightType extends Identifier {
 	ConfigColor outlineColor;
 	ConfigColor fillColor;
@@ -64,6 +68,8 @@ public class HighlightType extends Identifier {
 
 		this.register();
 	}
+
+
 
 	private static ConfigColor getOutlineColor(final String name, final String color) {
 		return new ConfigColor(

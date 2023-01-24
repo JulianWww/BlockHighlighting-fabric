@@ -6,7 +6,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 
 import net.denanu.blockhighlighting.components.ChunkComponents;
-import net.denanu.blockhighlighting.config.HighlightTypes;
+import net.denanu.blockhighlighting.config.HighlightIds;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.server.command.CommandManager;
@@ -33,7 +33,7 @@ public class HighlightCommands {
 		if (pos == null) {
 			return -1;
 		}
-		ChunkComponents.HIGHLIGHTS.get(context.getSource().getWorld().getChunk(pos)).add(HighlightTypes.DEFAULT_HIGHLIGHTER, pos);
+		ChunkComponents.HIGHLIGHTS.get(context.getSource().getWorld().getChunk(pos)).add(HighlightIds.DEFAULT_HIGHLIGHTER, pos);
 		return 1;
 	}
 
@@ -42,7 +42,7 @@ public class HighlightCommands {
 		if (pos == null) {
 			return -1;
 		}
-		ChunkComponents.HIGHLIGHTS.get(context.getSource().getWorld().getChunk(pos)).remove(HighlightTypes.DEFAULT_HIGHLIGHTER, pos);
+		ChunkComponents.HIGHLIGHTS.get(context.getSource().getWorld().getChunk(pos)).remove(HighlightIds.DEFAULT_HIGHLIGHTER, pos);
 		return 1;
 	}
 

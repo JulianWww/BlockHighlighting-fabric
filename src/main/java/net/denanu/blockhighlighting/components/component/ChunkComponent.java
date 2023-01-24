@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableList;
 
 import net.denanu.blockhighlighting.BlockHighlighting;
 import net.denanu.blockhighlighting.components.ChunkComponents;
-import net.denanu.blockhighlighting.config.HighlightTypes;
+import net.denanu.blockhighlighting.config.HighlightIds;
 import net.denanu.blockhighlighting.utils.NbtUtils;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -28,7 +28,7 @@ public class ChunkComponent implements IChunkComponent {
 		this.provider = provider;
 
 		this.highlights = new HashMap<>();
-		for (final Identifier ident : HighlightTypes.HIGHLIGHT_TYPES) {
+		for (final Identifier ident : HighlightIds.HIGHLIGHT_TYPES) {
 			this.highlights.put(ident, new HashSet<>());
 		}
 	}

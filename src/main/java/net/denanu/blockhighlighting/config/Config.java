@@ -14,7 +14,10 @@ import fi.dy.masa.malilib.config.options.ConfigInteger;
 import fi.dy.masa.malilib.util.FileUtils;
 import fi.dy.masa.malilib.util.JsonUtils;
 import net.denanu.blockhighlighting.BlockHighlighting;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
+@Environment(EnvType.CLIENT)
 public class Config implements IConfigHandler {
 	private static final String CONFIG_FILE_NAME = BlockHighlighting.MOD_ID + ".json";
 
