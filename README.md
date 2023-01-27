@@ -1,9 +1,20 @@
 # Fabric Example Mod
 
+[![Build](https://github.com/JulianWww/StoppableSound-fabric/actions/workflows/build.yml/badge.svg)](https://github.com/JulianWww/StoppableSound-fabric/actions/workflows/build.yml)
+[![GitHub downloads](https://img.shields.io/github/downloads/JulianWww/StoppableSound-fabric/total?label=Github%20downloads&logo=github)](https://github.com/JulianWww/StoppableSound-fabric/releases)
+[![GitHub contributors](https://img.shields.io/github/contributors/JulianWww/BlockHighlighting-fabric?label=Contributors&logo=github)](https://github.com/JulianWww/BlockHighlighting-fabric/graphs/contributors)
+
 ## Setup
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+```gradle
+repositories {
+    maven {
+        name = 'Denanu Mods'
+        url = 'https://wandhoven.ddns.net/maven/'
+    }
+}
 
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+dependencies {
+    modImplementation "net.denanu.BlockHighlighting:BlockHighlighting-<Minecraft_Version>:<StoppableSound_version>"
+}
+```
