@@ -33,7 +33,6 @@
     ]
   },
   "mixins": [
-    "blockhighlighting.mixins.json"
   ],
 
   "depends": {
