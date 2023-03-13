@@ -16,7 +16,7 @@ public class HighlightType extends Identifier {
 
 	public HighlightType(final String id) {
 		super(id);
-		this.assignDefalultValues(this.path);
+		this.assignDefalultValues(this.getPath());
 	}
 
 	public HighlightType(final String namespace, final String path) {

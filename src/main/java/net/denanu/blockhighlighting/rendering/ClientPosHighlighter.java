@@ -77,7 +77,7 @@ public class ClientPosHighlighter {
 			final Collection<BlockPos> poses
 			) {
 		RenderSystem.enableDepthTest();
-		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		RenderSystem.setShader(GameRenderer::getPositionColorProgram);
 		final Tessellator tessellator = Tessellator.getInstance();
 		final BufferBuilder bufferBuilder = tessellator.getBuffer();
 		RenderSystem.disableTexture();
