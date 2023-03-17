@@ -1,6 +1,6 @@
 version: 2
 updates:
-  # Maintain dependencies for gradle
+  # Maintain dependencies for gradle mods
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
