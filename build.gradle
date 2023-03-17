@@ -3,6 +3,8 @@ plugins {
 	id 'maven-publish'
 }
 
+import groovy.json.JsonSlurper
+
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
@@ -28,16 +30,14 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
-	modImplementation "fi.dy.masa.malilib:malilib-fabric-${project.minecraft_version}:${project.malilib_version}"
+	modImplementation "fi.dy.masa.malilib:malilib-fabric-1.19.2:0.13.0"
 	modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
-	
-
-	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.0.2"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:5.0.2"
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinalVersion}"
+  modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${cardinalVersion}"
     
-    include "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.0.2"
-    include "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:5.0.2"
+  include "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinalVersion}"
+  include "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${cardinalVersion}"
 }
 
 
@@ -45,8 +45,8 @@ group = project.group + "." + project.archives_base_name
 archivesBaseName = project.archives_base_name + '-' + project.minecraft_version
 version = project.mod_version
 
-if (version.endsWith('-dev')) {
-	version += "-" + Long.toHexString(new Date().getTime())
+if (project.dev == "true") {
+	project.version += "." + Long.toString(new Date().getTime())
 }
 
 processResources {
