@@ -25,7 +25,7 @@ Server and Client Side, define Highlighters
 ```Java
 public static final Identifier HIGHLIGHTER_ID = HighlightIds.register(Identifier.of(MOD_ID, "name"));
 ```
-'''Only on the client''' for a generic highlighter, create it as follows. Note that the names must match.
+**Only on the client** for a generic highlighter, create it as follows. Note that the names must match.
 ```Java
 public static HighlightType HIGHLIGHTER = HighlightTypes.register(MOD_ID, "name");
 ```
