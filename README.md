@@ -18,3 +18,18 @@ dependencies {
     modImplementation "net.denanu.BlockHighlighting:BlockHighlighting-<Minecraft_Version>:<StoppableSound_version>"
 }
 ```
+
+## Usage
+### Registering a Highlighter
+Server and Client Side, define Highlighters
+```Java
+public static final Identifier HIGHLIGHTER_ID = HighlightIds.register(Identifier.of(MOD_ID, "name"));
+```
+'''Only on the client''' for a generic highlighter, create it as follows. Note that the names must match.
+```Java
+public static HighlightType HIGHLIGHTER = HighlightTypes.register(MOD_ID, "name");
+```
+instead of registering a default highlighter, you can also define the highlighters default outline and fill color. These must be done in Hex codes using Alpha, Red, Green, Blue syntax. This can be done as follows:
+```Java
+public static HighlightType HIGHLIGHTER 		= BlockHighlightingAmaziaConfig.register(MOD_ID, "name", "#FFFFFFFF", "#20FFFFFF"); #outline , fill
+```
