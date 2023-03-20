@@ -36,7 +36,7 @@ public static HighlightType HIGHLIGHTER = BlockHighlightingAmaziaConfig.register
 ### Highlight and Unhiglight Blocks
 **Server Side**
 To highlight or unhighlight blocks (at Position pos) in the world (world) use the following functions respectivly, where ID is the Highlighter ID (previously defined)
-```
+```Java
 Highlighter.highlight(world, ID, pos);
 Highlighter.unhighlight(world, ID, pos);
 ```
