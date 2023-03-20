@@ -31,5 +31,5 @@ public static HighlightType HIGHLIGHTER = HighlightTypes.register(MOD_ID, "name"
 ```
 instead of registering a default highlighter, you can also define the highlighters default outline and fill color. These must be done in Hex codes using Alpha, Red, Green, Blue syntax. This can be done as follows:
 ```Java
-public static HighlightType HIGHLIGHTER 		= BlockHighlightingAmaziaConfig.register(MOD_ID, "name", "#FFFFFFFF", "#20FFFFFF"); #outline , fill
+public static HighlightType HIGHLIGHTER = BlockHighlightingAmaziaConfig.register(MOD_ID, "name", "#FFFFFFFF", "#20FFFFFF"); #outline , fill
 ```
