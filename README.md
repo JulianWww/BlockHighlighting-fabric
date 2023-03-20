@@ -33,3 +33,10 @@ instead of registering a default highlighter, you can also define the highlighte
 ```Java
 public static HighlightType HIGHLIGHTER = BlockHighlightingAmaziaConfig.register(MOD_ID, "name", "#FFFFFFFF", "#20FFFFFF"); #outline , fill
 ```
+### Highlight and Unhiglight Blocks
+**Server Side**
+To highlight or unhighlight blocks (at Position pos) in the world (world) use the following functions respectivly, where ID is the Highlighter ID (previously defined)
+```
+Highlighter.highlight(world, ID, pos);
+Highlighter.unhighlight(world, ID, pos);
+```
